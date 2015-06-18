@@ -1,0 +1,31 @@
+<script type="text/javascript">
+  $(document).ready(function(){
+    <% flag = false %>
+    var evnts = function(){
+      return {
+        "event":
+          [
+            <% @my_events_group.each_key do |da| %>
+              <% unless flag %>
+                <% flag = true %>
+                {"date":"<%= da %>","title":"<%= @my_events_group[da] %>"}
+              <% else %>
+                ,{"date":"<%= da %>","title":"<%= @my_events_group[da] %>"}
+              <% end %>
+            <% end %>
+          ]
+      }
+    };
+
+    $('#calendar').Calendar({ 'events': evnts, 'weekStart': 1 })
+      .on('changeDay', function(event){ $.get('/get_events/' + event.year.valueOf() +'-'+ event.month.valueOf() +'-'+ event.day.valueOf() ); })
+      .on('onEvent', function(event){ $.get('/get_events/' + event.year.valueOf() +'-'+ event.month.valueOf() +'-'+ event.day.valueOf() ); })
+//      .on('onNext', function(event){ alert("Next"); })
+//      .on('onPrev', function(event){ alert("Prev"); })
+//      .on('onCurrent', function(event){ alert("Current"); });
+  });
+</script>
+
+<div id="calendar"></div>
+
+

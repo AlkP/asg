@@ -1,0 +1,165 @@
+<% if @client_id.nil? %>
+
+  <% if session[:filter_staff].nil? %>
+    <a id="modal-720481" href="#modal-container-720481" role="button" class="btn btn-block btn-primary btn-sm" data-toggle="modal">Поиск</a>
+  <% else %>
+    <%= link_to "Очистить поиск", "clear_filter_staff", remote: true, class: "btn btn-block btn-warning btn-sm" %>
+  <% end %>
+  <div class="modal fade" id="modal-container-720481" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title" id="myModalLabel">
+            Поиск сотрудников
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form accept-charset="UTF-8" action="/filter_staff" class="form-horizontal" data-remote="true" id="new_event" method="post">
+            <div class="control-group">
+              <label class="control-label" for="event_Наименование">Клиент</label>
+              <div class="controls">
+                <input class="input-large" id="event_name" name="filter[name]" type="text">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="event_Описание">Отрасль</label>
+              <div class="controls">
+                <select class="selectpicker" name="filter[sector]">
+                  <option value="">Все отрасли</option>
+                  <% Sector.all_alkp.each do |s| %>
+                    <option value="<%= s.id %>"><%= s.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="event_Описание">Пол</label>
+              <div class="controls">
+                <select class="selectpicker" name="filter[sex]">
+                  <option value=""></option>
+                  <option value="М">М</option>
+                  <option value="Ж">Ж</option>
+                </select>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="event_Описание">Дата рождения</label>
+              <div class="controls">
+                <select id="date_year" name="date[year]" style="width: 65px">
+                  <option value="">Год</option>
+                  <% (1941..2015).each do |year| %>
+                    <option value="<%= year %>"><%= year %></option>
+                  <% end %>
+                </select>
+                <select id="date_month" name="date[month]" style="width: 80px">
+                  <option value="">Месяц</option>
+                  <option value="01">Январь</option>
+                  <option value="02">Февраль</option>
+                  <option value="03">Март</option>
+                  <option value="04">Апрель</option>
+                  <option value="05">Май</option>
+                  <option value="06">Июнь</option>
+                  <option value="07">Июль</option>
+                  <option value="08">Август</option>
+                  <option value="09">Сентябрь</option>
+                  <option value="10">Октябрь</option>
+                  <option value="11">Ноябрь</option>
+                  <option value="12">Декабрь</option>
+                </select>
+                <select id="date_day" name="date[day]" style="width: 70px">
+                  <option value="">День</option>
+                  <option value="01">1</option>
+                  <option value="02">2</option>
+                  <option value="03">3</option>
+                  <option value="04">4</option>
+                  <option value="05">5</option>
+                  <option value="06">6</option>
+                  <option value="07">7</option>
+                  <option value="08">8</option>
+                  <option value="09">9</option>
+                  <option value="10">10</option>
+                  <option value="11">11</option>
+                  <option value="12">12</option>
+                  <option value="13">13</option>
+                  <option value="14">14</option>
+                  <option value="15">15</option>
+                  <option value="16">16</option>
+                  <option value="17">17</option>
+                  <option value="18">18</option>
+                  <option value="19">19</option>
+                  <option value="20">20</option>
+                  <option value="21">21</option>
+                  <option value="22">22</option>
+                  <option value="23">23</option>
+                  <option value="24">24</option>
+                  <option value="25">25</option>
+                  <option value="26">26</option>
+                  <option value="27">27</option>
+                  <option value="28">28</option>
+                  <option value="29">29</option>
+                  <option value="30">30</option>
+                  <option value="31">31</option>
+                </select>
+
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" onclick="$('.event-form').html('')" class="btn btn-default close-modal event-close filter-staff-close" data-dismiss="modal">Закрыть</button>
+              <input class="btn btn-primary" name="commit" remote="true" type="submit" value="Поиск">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    $('#modal-container-720481').hide();
+  </script>
+
+
+
+
+<% else %>
+  <a href="<%= client_url @client_id %><%= new_staff_path %>"
+     type="button"
+     data-remote="true"
+     class="btn btn-block btn-primary btn-sm">Добавить нового</a>
+<% end %>
+<div class="staff-index-table">
+  <table class="table table-condensed table-hover table-striped">
+    <thead>
+    <tr>
+      <th>
+        ФИО
+      </th>
+      <th>
+        <% unless session[:filter].nil? %>
+          <a href="create_post/staff"
+             role="button"><img src="/assets/email_mini.jpg"/></a>
+        <% end %>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @staffs.each do |s| %>
+      <tr class="active">
+        <td>
+          <a data-remote="true"
+             href="/staffs/<%= s.id %>"
+             onclick="" >
+            <%= s.surname %> <%= s.name[0] unless s.name.nil? %>.<%= s.middle_name[0] unless s.middle_name.nil? %>.</a></td>
+        </td>
+        <td>
+          <a data-confirm="Вы действительно хотите удалить сотрудника?"
+             data-method="delete"
+             data-remote="true"
+             href="/staffs/<%= s.id %><% if @client_id.nil? %>/all<% end %>"
+             rel="nofollow"><img src="/assets/del.png"></a>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

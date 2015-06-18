@@ -1,0 +1,44 @@
+<table class="table table-striped table-hover table-condensed">
+  <thead>
+  <tr>
+    <th>
+      <% unless @client.nil? %>
+        <a href="/tours/<%= @client.id %>/new"
+           data-remote="true"
+           data-toggle="modal"><img src="/assets/plus.png"></a>
+      <% end %>
+    </th>
+    <th>
+      Наименование
+    </th>
+    <th>
+      Начало
+    </th>
+    <th>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @tours.each do |t| %>
+    <tr class="active">
+      <td></td>
+      <td>
+        <a data-remote="true"
+           href="/tours/<%= t.id %>"
+           onclick="" ><%= t.name %></a>
+
+      </td>
+      <td>
+        <%= t.departure %>
+      </td>
+      <td>
+        <a data-confirm="Вы действительно хотите удалить тур?"
+           data-method="delete"
+           data-remote="true"
+           href="/tours/<%= t.id %>"
+           rel="nofollow"><img src="/assets/del.png"></a>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

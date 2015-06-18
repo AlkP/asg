@@ -1,0 +1,53 @@
+<!--<a href="/events/new"-->
+   <!--data-remote="true"-->
+   <!--role="button"-->
+   <!--class="btn btn-block btn-primary btn-sm"-->
+   <!--data-toggle="modal">Добавить событие</a>-->
+<table class="table">
+  <thead>
+  <tr>
+    <th>
+      Дата
+    </th>
+    <th>
+      Время
+    </th>
+    <th>
+      Событие
+    </th>
+    <th>
+      <a href="/events/new"
+         data-remote="true"
+         role="button"
+         data-toggle="modal"><img src="/assets/plus.png"></a>
+    </th>
+    <th>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @events.each do |event| %>
+    <tr class="<% unless event.end %>active<% else %>warning<% end %>">
+      <td><%= event.date %></td>
+      <td><%= event.time.strftime("%H:%M") %></td>
+      <td>
+      <% unless event.name.length > 12 %>
+        <%= event.name %>
+      <% else %>
+          <%= event.name[0..11] %>...
+      <% end %>
+      </td>
+      <td>
+        <a data-remote="true" href="/events/<%= event.id %>"><img src="/assets/pencil.png"></a>
+      </td>
+      <td>
+        <% unless event.end %>
+            <a data-confirm="Вы действительно хотите удалить событие?" data-remote="true"
+               data-method="delete" href="/events/<%= event.id %>" rel="nofollow">
+              <img src="/assets/del.png"></a>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

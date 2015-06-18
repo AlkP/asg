@@ -1,0 +1,4 @@
+every_fife_minute_job:
+ cron: "*/5 * * * *"
+ class: HandlerJob
+ description: "every 5 minute job"

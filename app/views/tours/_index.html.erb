@@ -1,0 +1,26 @@
+<div class="span6 column">
+  <div class="btn-group">
+    <a class="btn dropdown-toggle btn-primary" data-toggle="dropdown" href="">
+      Фильтр туров
+      <span class="caret"></span>
+    </a>
+    <ul class="dropdown-menu">
+      <li>
+        <a data-remote="true" href="/clients/<%= @client.id %>/tours/nil">Текущие</a>
+      </li>
+      <li>
+        <a data-remote="true" href="/clients/<%= @client.id %>/tours/arhiv">Архивные</a>
+      </li>
+    </ul>
+  </div>
+
+
+  <div class="form-index">
+    <%= render 'tours/form_index' %>
+  </div>
+
+  <hr>
+  <div class="tour-form"></div>
+
+</div>
+<div class="span6 column accordion-form"></div>

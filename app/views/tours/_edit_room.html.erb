@@ -1,0 +1,20 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <%= form_tag("/update_room", method: "get", remote: true) do %>
+      <div class="modal-body">
+        <%= text_field_tag(:room_id, @room.id) %>
+        <script>$('#room_id').hide();</script>
+        <%= text_field_tag(:room_name, @room.name) %>
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-default data-dismiss close-modal-update-room"
+                data-dismiss="modal">Закрыть</button>
+        <input class="btn btn-primary"
+               name="commit"
+               type="submit"
+               value="Сохранить">
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,7 @@
+<% if @flag_else %>
+  $(".event-close").click();
+  $(".event-close2").click();
+<% else %>
+  $(".events-index").html('<%= escape_javascript render "events/index" %>');
+  $(".event-form").html('');
+<% end %>

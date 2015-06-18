@@ -1,0 +1,59 @@
+<script>
+  $.datepicker.regional['ru'] = {
+    altField: '#checkout_date',
+    closeText: 'Закрыть',
+    prevText: '&#x3c;Пред',
+    nextText: 'След&#x3e;',
+    currentText: 'Сегодня',
+    monthNames: ['Январь','Февраль','Март','Апрель','Май','Июнь',
+      'Июль','Август','Сентябрь','Октябрь','Ноябрь','Декабрь'],
+    monthNamesShort: ['Янв','Фев','Мар','Апр','Май','Июн',
+      'Июл','Авг','Сен','Окт','Ноя','Дек'],
+    dayNames: ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'],
+    dayNamesShort: ['вск','пнд','втр','срд','чтв','птн','сбт'],
+    dayNamesMin: ['Вс','Пн','Вт','Ср','Чт','Пт','Сб'],
+    weekHeader: 'Не',
+    dateFormat: 'yy-mm-dd',
+    firstDay: 1,
+    isRTL: false,
+    showMonthAfterYear: false,
+    yearSuffix: ''};
+  $.datepicker.setDefaults($.datepicker.regional['ru']);
+</script>
+
+<div id="inputDate"></div>
+<input id="checkout_date">
+
+<script>
+
+  $("#inputDate").datepicker();
+  $('div.ui-datepicker').css({ 'font-size': '25px' });
+  //  $('#checkout_date').hide();
+
+
+  var oldVal = $.fn.val;
+  $.fn.oldVal = oldVal;
+
+  $.fn.val = function(value){
+    if(!value)
+      return this.oldVal();
+    else
+    {
+      return this.each(function(){
+        $(this).oldVal(value);
+        $(this).change();
+      });
+    }
+
+  };
+
+  $(document).ready(function(){
+    $('#checkout_date').change(function(){
+      $.get('/date/'+$('#checkout_date').val(), function(data) {})
+    });
+  });
+
+  $('.events-calendar').hide();
+
+</script>
+

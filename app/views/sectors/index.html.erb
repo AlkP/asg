@@ -1,0 +1,33 @@
+<div class="row-fluid">
+  <div class="span4">
+
+  </div>
+  <div class="span4">
+    <button type="button" class="btn btn-block btn-sm btn-primary">
+      <%= link_to "Новая отрасль", new_sector_path, class: "cbtn btn-block btn-sm btn-primary" %></button>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>
+            Отрасль
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @sectors.each do |f| %>
+        <tr class="active">
+          <td><%= link_to f.name, f %></td>
+          <td>
+            <a data-confirm="Вы действительно хотите удалить отрасль?" data-method="delete" href="/sectors/<%= f.id %>" rel="nofollow">
+              <img src="/assets/del.png"></a>
+          </td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+  <div class="span4">
+
+  </div>
+</div>

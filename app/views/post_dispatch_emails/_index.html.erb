@@ -1,0 +1,27 @@
+<tr class="add-new-pde">
+  <form accept-charset="UTF-8" action="/post_dispatch_emails" data-remote="true" method="post">
+    <td>
+      <input class="input-large post-dispatch-id" name="id" type="text" value="<%= @post_dispatch.id %>">
+      <input class="input-large" name="email" type="text">
+    </td>
+    <td>
+      <input class="btn btn-primary" name="commit" remote="true" type="submit" value="Добавить">
+    </td>
+  </form>
+</tr>
+<script>$('.post-dispatch-id').hide();$('.add-new-pde').hide();</script>
+<% PostDispatchEmail.where('post_dispatch_id = ?', @post_dispatch.id).each do |pde| %>
+  <tr class="active">
+    <td>
+      <%= pde.email %>
+    </td>
+    <td>
+      <a data-confirm="Удалить email?"
+         data-method="delete"
+         data-remote="true"
+         href="/post_dispatch_emails/<%= pde.id %>"
+         rel="nofollow"><img src="/assets/del.png"></a>
+    </td>
+  </tr>
+<% end %>
+

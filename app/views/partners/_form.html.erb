@@ -1,0 +1,75 @@
+<%= form_for @partner, remote: true, :html => {:class => "form-horizontal"} do |partner| %>
+
+      <div class="control-group">
+        <%= partner.label :"Страна", :class => "control-label" %>
+        <div class="controls">
+          <select class="selectpicker" name="partner[country_id]">
+            <% @countries.each do |c| %>
+              <option value="<%= c.id %>" <% if c.id == @partner.country_id %>selected="selected"<% end %>><%= c.name %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= partner.label :"Город", :class => "control-label" %>
+        <div class="controls">
+          <select class="selectpicker" name="partner[town_id]">
+            <% @towns.each do |t| %>
+              <option value="<%= t.id %>" <% if t.id == @partner.town_id %>selected="selected"<% end %>><%= t.name %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= partner.label :"Тип партнера", :class => "control-label" %>
+        <div class="controls">
+          <select class="selectpicker" name="partner[types_partner_id]">
+            <% @types_partners.each do |t_p| %>
+              <option value="<%= t_p.id %>" <% if t_p.id == @partner.types_partner_id %>selected="selected"<% end %>><%= t_p.name %></option>
+            <% end %>
+          </select>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= partner.label :"Наименование", :class => "control-label" %>
+        <div class="controls">
+          <%= partner.text_field :name, :class => "input-xlarge" %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= partner.label :"Адрес", :class => "control-label" %>
+        <div class="controls">
+          <%= partner.text_field :address, :class => "input-xlarge" %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= partner.label :"Контактное лицо", :class => "control-label" %>
+        <div class="controls">
+          <%= partner.text_field :contact_name, :class => "input-xlarge" %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= partner.label :"email", :class => "control-label" %>
+        <div class="controls">
+          <%= partner.text_field :email, :class => "input-xlarge" %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= partner.label :"Телефон", :class => "control-label" %>
+        <div class="controls">
+          <%= partner.text_field :phone, :class => "input-xlarge" %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= partner.label :"Примечание", :class => "control-label" %>
+        <div class="controls">
+          <%= partner.text_field :description, :class => "input-xlarge" %>
+        </div>
+      </div>
+
+
+  <div class="modal-footer">
+    <button type="button" onclick="$('.partner-form').html('')" class="btn btn-default close-modal" data-dismiss="modal">Закрыть</button>
+    <%= partner.submit value: "Сохранить", :class => "btn btn-primary", remote: true %>
+  </div>
+<% end %>

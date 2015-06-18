@@ -1,0 +1,24 @@
+<% unless @tour_notes.count == 0 %>
+  <table class="table table-striped table-hover table-condensed">
+  <tbody>
+  <% @tour_notes.each do |t_n| %>
+    <tr class="active">
+      <td>
+        <%= t_n.name %>
+      </td>
+      <td>
+        <a data-confirm="Вы действительно хотите удалить примечание?"
+           data-method="delete"
+           data-remote="true"
+           href="/tour_notes/<%= t_n.id %>"
+           rel="nofollow"><img src="/assets/del.png"></a>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+<% else %>
+  <h4>
+    Нет примечаний
+  </h4>
+<% end %>

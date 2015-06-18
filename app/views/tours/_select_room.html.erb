@@ -1,0 +1,36 @@
+<div class="modal-dialog">
+  <div class="modal-content">
+    <%= form_tag("/add_staff", method: "get", remote: true) do %>
+      <div class="modal-body">
+
+        <%= text_field_tag(:tour_id, @tour.id) %>
+        <%= text_field_tag(:room_id, @room_id) %>
+
+        <script>$('.modal-body #tour_id').hide();</script>
+        <script>$('.modal-body #room_id').hide();</script>
+
+        <div class="control-group">
+          Выберите проживающего:
+          <div class="controls">
+            <select class="selectpicker" name="staff_id">
+              <% @staffs.each do |select_staff| %>
+                <option value="<%= select_staff.id %>"><%= select_staff.surname %> <%= select_staff.name %> <%= select_staff.middle_name %></option>
+              <% end %>
+            </select>
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button"
+                class="btn btn-default data-dismiss"
+                data-dismiss="modal">Закрыть</button>
+        <input class="btn btn-primary"
+               name="commit"
+               type="submit"
+               value="Сохранить">
+      </div>
+    <% end %>
+  </div>
+</div>

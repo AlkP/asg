@@ -1,0 +1,25 @@
+<br>
+<%= form_for @template do |f| %>
+<!--< %= form_for @template, remote: true, :html => {:class => "form-vertical"} do |t_p| %>-->
+  <div class="modal-body">
+    <fieldset>
+      <div class="control-group">
+        <%= f.label :"Наименование", :class => "control-label" %>
+        <div class="controls">
+          <%= f.text_field :name, :class => "input-xlarge" %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= f.label :"Файл", :class => "control-label" %>
+        <div class="controls">
+          <%= f.file_field :att_file, :class => "input-xlarge" %>
+        </div>
+      </div>
+
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button type="button" onclick="$('.template-form').html('')" class="btn btn-default close-modal" data-dismiss="modal">Закрыть</button>
+    <%= f.submit value: "Сохранить", :class => "btn btn-primary" %>
+  </div>
+<% end %>

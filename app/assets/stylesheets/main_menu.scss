@@ -1,0 +1,118 @@
+ul, ol {
+  padding: 0;
+  margin: 0 0 10px 23px;
+}
+.drop{
+  padding-right: 0px;
+  padding-top: 1px;
+  z-index: 99999;
+
+	li{
+		height: 22px;
+		display: inline-block;
+		border-radius: 1px;
+		font-weight: bold;
+		padding: 1px 3px 0;
+		-webkit-box-shadow:  0 2px 2px #d0c8cd;
+		-moz-box-shadow:  0 2px 2px #d0c8cd;
+		box-shadow: 0 2px 2px #d0c8cd;
+		width: 65px;
+		text-align: center;
+		a{
+			text-decoration: none;
+			color: #736363;
+			font-family: "KorinnaCyr";
+		}
+	}
+}
+.m-active{
+  background:url("others/cat-act.png");
+  font-size: 14px;
+  color:#21201e;
+  margin-left: 1px;
+}
+.m-diactive{
+  background:url("others/cat-pass.png");
+  font-size: 14px;
+  color:#626262;
+  margin-left: 1px;
+}
+
+
+/* выпадающий список */
+.drop , .head-nav ul{
+	ul {
+		list-style:none;
+		position:absolute;
+		left:-9999px;
+		opacity:0;
+		-webkit-transition:0.25s linear opacity;
+		z-index: 99999;
+	}
+	li:hover ul {
+		left:-50px;
+		opacity:1;
+	}
+	li {
+		position: relative;
+		a {
+			display: block;
+			white-space: nowrap;
+		}
+		.ddhover {
+			z-index: 99999;
+		}
+	}
+	.sub-menu {
+		li {
+			text-align: left;
+			width: 160px;
+			height: 19px;
+			background-color: #fbe46c;
+			margin-bottom: 2px;
+			padding: 2px;
+			float: none;
+			padding-left: 10px;
+			font-size: 11px;
+			font-weight: bold;
+			cursor: pointer;
+			z-index: 99999;
+			&:hover {
+				color: #fff;
+				background: #ed2324;
+				z-index: 99999;
+			}
+		}
+		a {
+			font-family: "KorinnaCyr";
+			color: black;
+			display: block;
+			white-space: nowrap;
+			z-index: 99999;
+			&:hover{
+				color: #fff;
+				z-index: 99999;
+			}
+		}
+	}
+}
+
+.delivery {
+  font-size: 11px;
+  b big {
+	display: block;
+  }
+  a img {
+	width: 129px;
+	height: 86px;
+	margin: 2px;
+	padding: 0;
+	border: 3px solid #cccccc;
+  }
+  a:last-child {
+	margin-bottom: 12px;
+  }
+  iframe {
+	margin-top: 12px;
+  }
+}

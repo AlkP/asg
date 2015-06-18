@@ -1,0 +1,15 @@
+<%= form_for @list_staff_tour, remote: true, :html => {:class => "form-horizontal"} do |l_s_t| %>
+  <div class="checkbox hidden">
+    <input class="inp-house" name="tour_id" type="text" value="<%= @tour.id %>">
+  </div>
+  <% @staffs.each do |staff| %>
+    <div class="checkbox">
+      <label><input name="list_staff_tour[<%= staff.id %>]"
+                    <% if (ListStaffTour.check(@list_staff_tours, staff.id)) %>checked="checked"<% end %>
+                    type="checkbox" /><%= staff.surname %> <%= staff.name %> <%= staff.middle_name %></label>
+    </div>
+  <% end %>
+    <%= l_s_t.submit value: "Сохранить список участников", :class => "btn btn-primary" %>
+<% end %>
+
+<!--checked="checked"-->

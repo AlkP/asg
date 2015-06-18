@@ -1,0 +1,38 @@
+<a href="visas/new"
+   data-remote="true"
+   role="button"
+   class="btn btn-block btn-primary btn-sm"
+   data-toggle="modal">Добавить визу</a>
+<table class="table">
+  <thead>
+  <tr>
+    <th>
+      Страна
+    </th>
+    <th>
+      Стоимость
+    </th>
+    <th>
+      Дата обновления
+    </th>
+    <th>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @visas.each do |v| %>
+    <tr class="active">
+      <td>
+        <%= link_to v.country_id.nil? ? "Страна не задана" : Country.find(v.country_id).name, v, remote: true %>
+      </td>
+      <td><%= v.cost %></td>
+      <td><%= v.updated_at %></td>
+      <td>
+        <a data-confirm="Вы действительно хотите удалить визу?" data-remote="true"
+           data-method="delete" href="/visas/<%= v.id %>" rel="nofollow">
+          <img src="/assets/del.png"></a>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

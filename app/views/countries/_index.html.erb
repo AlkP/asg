@@ -1,0 +1,29 @@
+<a href="countries/new"
+   data-remote="true"
+   role="button"
+   class="btn btn-block btn-primary btn-sm"
+   data-toggle="modal">Добавить страну</a>
+<div class="country-form"></div>
+<table class="table">
+  <thead>
+  <tr>
+    <th>
+      Наименование
+    </th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @countries.each do |c| %>
+    <tr class="active">
+      <td><a data-remote="true" href="/countries/<%= c.id %>/towns"><%= c.name %></a></td>
+      <td>
+        <a data-confirm="Вы действительно хотите удалить страну?" data-remote="true"
+           data-method="delete" href="/countries/<%= c.id %>" rel="nofollow">
+          <img src="/assets/del.png"></a>
+        <a data-remote="true" href="/countries/<%= c.id %>"><img src="/assets/pencil.png"></a>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

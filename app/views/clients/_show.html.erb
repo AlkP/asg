@@ -1,0 +1,373 @@
+<blockquote class="pull-right">
+  <p>
+    <%= @client.name %>
+  </p><% unless @client.sector_id.nil? %><small><%= Sector.find(@client.sector_id).name %></small><% end %>
+</blockquote>
+
+
+<div class="tabbable" id="tabs-37114">
+  <ul class="nav nav-tabs">
+    <li class="active" id="li-panel-162">
+      <a href="#panel-162" data-toggle="tab">Детали</a>
+    </li>
+    <li id="li-panel-436">
+      <!--<a href="#panel-436" data-toggle="tab">Сотрудники</a>-->
+      <a href="/clients/<%= @client.id %>/staffs"
+         data-remote="true"
+         id="staffs">Сотрудники</a>
+    </li>
+    <li id="li-panel-206">
+      <a href="/clients/<%= @client.id %>/tours/nil"
+         data-remote="true"
+         id="tours">Программы</a>
+      <!--<a href="#panel-206" data-toggle="tab">Программы</a>-->
+    </li>
+    <li id="li-panel-468">
+      <a href="/clients/<%= @client.id %>/contracts"
+         data-remote="true"
+         id="contracts">Договора</a>
+      <!--<a href="#panel-468" data-toggle="tab">Договора</a>-->
+    </li>
+  </ul>
+  <div class="tab-content">
+    <div class="tab-pane active" id="panel-162">
+
+    <a id="modal-824495" href="#modal-container-824495" role="button" class="btn btn-block btn-warning btn-sm" data-toggle="modal">Добавить напоминание в органайзер</a>
+    <div class="modal fade" id="modal-container-824495" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h4 class="modal-title" id="myModalLabel">
+              Новое напоминание
+            </h4>
+          </div>
+          <div class="modal-body">
+            <%= form_for @event, remote: true, :html => {:class => "form-horizontal"} do |event| %>
+              <input class="input-xlarge hidden" value="<%= @client.id %>" name="client_id" type="text">
+              <div class="control-group">
+                <%= event.label :"Наименование", :class => "control-label" %>
+                <div class="controls">
+                  <%= event.text_field :name, :class => "input-xlarge" %>
+                </div>
+              </div>
+              <div class="control-group">
+                <%= event.label :"Описание", :class => "control-label" %>
+                <div class="controls">
+                  <%= event.text_field :description, :class => "input-xlarge" %>
+                </div>
+              </div>
+              <div class="control-group">
+                <%= event.label :"Комментарий", :class => "control-label" %>
+                <div class="controls">
+                  <%= event.text_field :note, :class => "input-xlarge" %>
+                </div>
+              </div>
+              <div class="control-group">
+                <%= event.label :"Дата", :class => "control-label" %>
+                <div class="controls">
+                  <input class="input-xlarge"
+                         id="event_date"
+                         name="event[date]"
+                         value="<%= @event.date %>"
+                         type="text"
+                         data-date-format="yyyy-mm-dd">
+
+                  <!--< %= event.text_field :date, :class => "input-xlarge" %>-->
+                </div>
+              </div>
+              <script>
+                var tour_departure = $('#event_date').datepicker().on('changeDate', function(ev) {
+                  tour_departure.hide();
+                }).data('datepicker');
+              </script>
+              <div class="control-group">
+                <%= event.label :"Время", :class => "control-label" %>
+                <div class="controls">
+                  <%= time_select 'event', 'time', {minute_step: 15}, style: "width: 70px;", value: @event.time %>
+                </div>
+              </div>
+
+
+              <div class="modal-footer">
+                <button type="button" onclick="$('.event-form').html('')" class="btn btn-default close-modal event-close" data-dismiss="modal">Закрыть</button>
+                <%= event.submit value: "Сохранить", :class => "btn btn-primary", remote: true %>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <br>
+    <script>$('#modal-container-824495').hide();</script>
+      <div class="accordion" id="accordion2">
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+              Детали клиента
+            </a>
+          </div>
+          <div id="collapseOne" class="accordion-body collapse in">
+            <div class="accordion-inner">
+
+
+
+
+              <div class="span12">
+                <div class="span8">
+                  <div class="thumbnail">
+
+
+
+                    <div class="row-fluid">
+                      <%= form_for @client, remote: true, :html => {:class => "form-horizontal"} do |c| %>
+                        <fieldset>
+                          <div class="control-group">
+                            <%= c.label :"Наименование", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :name, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"Отрасль", :class => "control-label" %>
+                            <div class="controls">
+                              <select id="sector" class="selectpicker" name="client[sector_id]" onchange="change_sector();">
+                                <% @sectors.each do |s| %>
+                                  <option value="<%= s.id %>" <% if s.id == @client.sector_id %>selected="selected"<% end %>><%= s.name %></option>
+                                <% end %>
+                                <option value="1"></option>
+                                <option value="new">Новая отрасль</option>
+                              </select>
+                            </div>
+                          </div>
+                          <script>
+                            $('.new-sector').hide();
+                            function change_sector() {
+                              if ($('#sector').val() == 'new') {
+                                $('.new-sector').show();
+                              } else {
+                                $('.new-sector').hide();
+                              }
+
+                            };
+                          </script>
+                          <div class="control-group new-sector">
+                            <div class="controls">
+                              <input class="input-xlarge" id="client_legal_address" name="new_sector" type="text" value="">
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"Юридический адрес", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :legal_address, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"Фактический адрес", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :actual_address, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"email", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :email, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"ИНН", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :inn, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"КПП", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :kpp, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"р/с", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :account, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"Наименование банка", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :name_bank, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"Корр/счет", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :corr_account, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"БИК", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :bik, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+
+                          <div class="form-actions">
+                            <%= c.submit value: "Сохранить", :class => "btn btn-primary" %>
+                          </div>
+                        </fieldset>
+                      <% end %>
+                    </div>
+
+
+
+
+                  </div>
+                </div>
+                <div class="span4">
+                  <div class="thumbnail">
+
+                    <h3>Первое лицо</h3>
+
+                    <div class="row-fluid">
+                      <%= form_for @client, remote: true, :html => {:class => "form-vertical"} do |c| %>
+                        <fieldset>
+                          <div class="control-group">
+                            <%= c.label :"Должность ЛПР", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :job_title, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"ФИО ЛПР", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :name_head, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"Должность ЛПР в р/п", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :job_title_genitive, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"ФИО ЛПР в р/п", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :name_head_genitive, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+                          <div class="control-group">
+                            <%= c.label :"Действует на основании", :class => "control-label" %>
+                            <div class="controls">
+                              <%= c.text_field :statute, :class => "input-xlarge" %>
+                            </div>
+                          </div>
+
+                          <div class="form-actions">
+                            <%= c.submit value: "Сохранить", :class => "btn btn-primary" %>
+                          </div>
+                        </fieldset>
+                      <% end %>
+                    </div>
+
+
+
+
+                  </div>
+                </div>
+              </div>
+
+
+
+
+
+            </div>
+          </div>
+        </div>
+        <div class="accordion-group">
+          <div class="accordion-heading">
+            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+              Заметки
+            </a>
+          </div>
+          <div id="collapseTwo" class="accordion-body collapse">
+            <div class="accordion-inner">
+              <br>
+              <a id="modal-24495" href="#modal-container-new-notes" role="button" class="btn btn-block btn-primary btn-sm" data-toggle="modal">Добавить заметку</a>
+              <br>
+              <div class="client-notes">
+                <%= render "notes/create" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+
+    <!--# Сотрудники-->
+
+    <div class="tab-pane client-staff" id="panel-436">
+    </div>
+
+
+    <!--# Программы-->
+
+
+    <div class="tab-pane client-tour" id="panel-206">
+      программы
+    </div>
+
+    <!--# Договора-->
+    <div class="tab-pane client-contract" id="panel-468">
+      договора
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-container-new-notes" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">
+          Новая заметка
+        </h4>
+      </div>
+      <%= form_for @note, remote: true, :html => {:class => "form-horizontal"} do |note_new| %>
+        <div class="modal-body">
+          <fieldset>
+
+            <div class="control-group hidden">
+              <%= note_new.label :"client_id", :class => "control-label" %>
+              <div class="controls">
+                <%= note_new.text_field :client_id, :class => "input-xlarge", :value => @client.id %>
+              </div>
+            </div>
+            <div class="control-group">
+              <%= note_new.label :"Наименование", :class => "control-label" %>
+              <div class="controls">
+                <%= note_new.text_field :name, :class => "input-xlarge" %>
+              </div>
+            </div>
+            <div class="control-group">
+              <%= note_new.label :"Описание", :class => "control-label" %>
+              <div class="controls">
+                <%= note_new.text_field :description, :class => "input-xlarge" %>
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Закрыть</button>
+          <%= note_new.submit value: "Сохранить", :class => "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script>$('#modal-container-new-notes').hide();</script>

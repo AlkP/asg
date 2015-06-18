@@ -1,0 +1,76 @@
+<%= form_for @contract, remote: true do |f| %>
+
+  <table class="table table-striped">
+    <tr>
+      <td>
+        <%= f.label :Наименование %><br>
+      </td>
+      <td>
+        <%= f.text_field :name %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :'Номер договора' %><br>
+      </td>
+      <td>
+        <%= f.text_field :number %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :'Дата договора' %><br>
+      </td>
+      <td>
+        <input class="input-large"
+               id="contract_date"
+               name="contract[date]"
+               value="<%= @contract.date %>"
+               type="text"
+               data-date-format="yyyy-mm-dd">
+        <!--< %= f.text_field :date %>-->
+        <script>
+          var contract_date = $('#contract_date').datepicker().on('changeDate', function(ev) {
+            contract_date.hide();
+          }).data('datepicker');
+        </script>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :'Сумма договора' %><br>
+      </td>
+      <td>
+        <%= f.text_field :amount %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= f.label :'Шаблон' %><br>
+      </td>
+      <td>
+        <!--< %= f.text_field :amount %>-->
+        <select class="selectpicker" name="contract[template_id]">
+          <% @templates.each do |t| %>
+            <option value="<%= t.id %>" <% if @contract.template_id == t.id %>selected="selected"<% end %>><%= t.name %></option>
+          <% end %>
+        </select>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <!--<button >-->
+        <!--< %= link_to 'Назад', contracts_path %>-->
+        <!--</button>-->
+
+      </td>
+      <td>
+        <%= f.submit 'Сохранить', class: "btn btn-sm btn-primary", remote: true%>
+      </td>
+    </tr>
+
+
+  </table>
+<% end %>
+
+<a href="/to_rtf/<%= @contract.id %>" class="btn btn-default">Сформировать договор</a>

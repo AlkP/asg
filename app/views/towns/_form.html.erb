@@ -1,0 +1,31 @@
+<br>
+<%= form_for @town, remote: true, :html => {:class => "form-vertical"} do |town| %>
+  <div class="modal-body">
+    <fieldset>
+
+      <div class="control-group hidden">
+        <%= town.label :"country_id", :class => "control-label" %>
+        <div class="controls">
+          <%= town.text_field :country_id, :class => "input-xlarge", value: @country_id %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= town.label :"Наименование", :class => "control-label" %>
+        <div class="controls">
+          <%= town.text_field :name, :class => "input-xlarge" %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= town.label :"Международное наименование", :class => "control-label" %>
+        <div class="controls">
+          <%= town.text_field :international_name, :class => "input-xlarge" %>
+        </div>
+      </div>
+
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button type="button" onclick="$('.town-form').html('')" class="btn btn-default close-modal" data-dismiss="modal">Закрыть</button>
+    <%= town.submit value: "Сохранить", :class => "btn btn-primary", remote: true %>
+  </div>
+<% end %>

@@ -1,0 +1,206 @@
+<%= form_for @post_dispatch, remote: true do |p_d| %>
+  <table class="table table-condensed table-hover table-striped">
+    <tbody>
+    <tr class="active">
+      <td>
+        Периодичность
+      </td>
+      <td>
+        <div class="controls">
+          <select class="selectpicker" name="p_d[periodicity]">
+            <option value="once" <% if @post_dispatch.periodicity == 'once' %>selected="selected"<% end %>>Единоразовая</option>
+            <option value="day" <% if @post_dispatch.periodicity == 'day' %>selected="selected"<% end %>>Ежедневная</option>
+            <option value="week" <% if @post_dispatch.periodicity == 'week' %>selected="selected"<% end %>>Еженедельная</option>
+            <option value="month" <% if @post_dispatch.periodicity == 'month' %>selected="selected"<% end %>>Ежемесячная</option>
+          </select>
+        </div>
+      </td>
+    </tr>
+    <tr class="active">
+      <td>
+        Кому рассылка
+      </td>
+      <td>
+        <% if @whom != 'client' and @whom != 'staff' %>
+          <div class="controls">
+            <select class="selectpicker" name="p_d[whom]">
+              <option value="my_list" <% if @post_dispatch.whom == 'my_list' %>selected="selected"<% end %>>Мой список</option>
+              <option value="staff_asg" <% if @post_dispatch.whom == 'staff_asg' %>selected="selected"<% end %>>Сотрудники фирмы</option>
+            </select>
+          </div>
+        <% else %>
+          <text style="font-weight:bold">
+            <% if @whom == 'client' %>Клиенты<% end %>
+            <% if @whom == 'staff' %>Сотрудники<% end %>
+          </text>
+        <% end %>
+      </td>
+    </tr>
+    <tr class="active">
+      <td>
+        Дате
+      </td>
+      <td>
+        <div class="controls">
+          <input class="input-xlarge"
+                 id="post_dispatch_date"
+                 name="p_d[date]"
+                 value="<%= @post_dispatch.date %>"
+                 type="text"
+                 data-date-format="yyyy-mm-dd">
+        </div>
+        <script>
+          var tour_departure = $('#post_dispatch_date').datepicker().on('changeDate', function(ev) {
+            tour_departure.hide();
+          }).data('datepicker');
+        </script>
+      </td>
+    </tr>
+    <tr class="active">
+      <td>
+        Время
+      </td>
+      <td>
+        <div class="controls">
+          <%= p_d.time_select :time, {minute_step: 15}, style: "width: 70px;" %>
+        </div>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <h3 class="text-center text-info">
+    Тема письма
+  </h3>
+  <p>
+    <div class="controls">
+      <input class="input-xlarge"
+             id="post_dispatch_subject"
+             name="p_d[subject]"
+             value="<%= @post_dispatch.subject %>"
+             type="text" style="width: 100%">
+    </div>
+  </p>
+  <h3 class="text-center text-info">
+    Тело письма
+  </h3>
+  <p>
+    <textarea rows="10" style="width: 100%;"
+              class="input-xlarge"
+              id="p_d_body"
+              name="p_d[body]"
+              type="text"><%= @post_dispatch.body %></textarea>
+  </p>
+  <div class="modal-footer">
+    <!--<button type="button" onclick="$('.event-form').html('')" class="btn btn-default close-modal event-close" data-dismiss="modal">Закрыть</button>-->
+    <%= p_d.submit value: "Сохранить", :class => "btn btn-primary", remote: true %>
+  </div>
+
+<% end %>
+
+<% if ((@whom == 'client') or (@whom == 'staff')) %>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Список рассылки
+      </h3>
+    </div>
+    <div class="panel-body">
+      <table class="table table-condensed table-hover table-striped">
+        <thead>
+        <tr>
+          <th>
+            <%
+              if @whom == 'client'
+            %>
+              Клиент
+            <%
+              else
+            %>
+              Сотрудник
+            <%
+              end
+            %>
+          </th>
+          <th>
+            email
+          </th>
+        </tr>
+        </thead>
+        <tbody>
+          <%
+             @list.each do |list|
+          %>
+            <tr class="active">
+              <td>
+                <% if @whom == 'client' %>
+                  <%= list.name %>
+                <% else %>
+                  <%= list.surname %> <%= list.name[0] %>.<%= list.middle_name[0] %>.
+                <% end %>
+              </td>
+              <td>
+                <% if @whom == 'client' %>
+                    <%= list.email %>
+                <% else %>
+                    <%= list.email_1 %> <%= list.email_2 %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% else %>
+  <div class="panel panel-primary">
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        Список рассылки
+      </h3>
+    </div>
+    <div class="panel-body">
+      <table class="table table-condensed table-hover table-striped">
+        <thead>
+        <tr>
+          <th>
+            <%
+               if @whom == 'my_list'
+            %>
+              email
+            <%
+               else
+            %>
+              Сотрудники ASG
+            <%
+               end
+            %>
+          </th>
+          <th>
+            <% unless @whom == 'my_list' %>email<% else %><a href="<%= new_post_dispatch_email_path %>"
+                                                data-remote="true"
+                                                role="button"><img src="/assets/plus.png"/></a><% end %>
+          </th>
+        </tr>
+        </thead>
+        <tbody class="pde-index">
+          <% if @whom == 'staff_asg'
+             User.all_alkp.order('name ASC').each do |user| %>
+              <tr class="active">
+                <td>
+                  <%= user.name %>
+                </td>
+                <td>
+                  <%= user.email %>
+                </td>
+              </tr>
+            <% end %>
+          <% end %>
+          <% if @whom == 'my_list' %>
+            <%= render 'post_dispatch_emails/index' %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+<% end %>
+

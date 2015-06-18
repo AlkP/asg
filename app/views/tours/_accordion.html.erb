@@ -1,0 +1,83 @@
+<div class="accordion" id="accordion3">
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#tourOne">
+        Примечания
+      </a>
+    </div>
+    <div id="tourOne" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <a id="modal-836501" href="#modal-container-new-tour-notes" role="button" class="btn btn-block btn-primary btn-sm" data-toggle="modal">Добавить примечание</a>
+        <br>
+        <div class="thumbnail">
+            <div class="row-fluid tour-notes-index">
+              <%= render 'tour_notes/index' %>
+            </div>
+          </div>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#tourTwo">
+        Список участников
+      </a>
+    </div>
+    <div id="tourTwo" class="accordion-body collapse">
+      <div class="accordion-inner">
+        <%= render 'list_staff_tours/index' %>
+      </div>
+    </div>
+  </div>
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion3" href="#tourThree">
+        Rooming List
+      </a>
+    </div>
+    <div id="tourThree" class="accordion-body collapse">
+      <div class="accordion-inner rooming-list">
+        <%= render 'tours/rooming_list' %>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="modal-container-new-tour-notes" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">
+          Новая заметка
+        </h4>
+      </div>
+      <%= form_for @tour_note, remote: true, :html => {:class => "form-horizontal"} do |tour_note_new| %>
+        <div class="modal-body">
+          <fieldset>
+
+            <div class="control-group hidden">
+              <%= tour_note_new.label :"tour_id", :class => "control-label" %>
+              <div class="controls">
+                <%= tour_note_new.text_field :tour_id, :class => "input-xlarge", :value => @tour.id %>
+              </div>
+            </div>
+            <div class="control-group">
+              <%= tour_note_new.label :"Описание", :class => "control-label" %>
+              <div class="controls">
+                <%= tour_note_new.text_field :name, :class => "input-xlarge" %>
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Закрыть</button>
+          <%= tour_note_new.submit value: "Сохранить", :class => "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<script>$('#modal-container-new-tour-notes').hide();</script>

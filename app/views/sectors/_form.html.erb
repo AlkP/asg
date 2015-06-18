@@ -1,0 +1,39 @@
+<div class="row-fluid">
+  <div class="span4">
+
+  </div>
+  <div class="span4">
+    <%= form_for @sector do |f| %>
+
+      <table class="table table-striped">
+        <tr>
+          <td>
+            <%= f.label :Наименование %><br>
+          </td>
+          <td>
+            <%= f.text_field :name %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <!--<button >-->
+            <%= link_to 'Назад', sectors_path %>
+            <!--</button>-->
+
+          </td>
+          <td>
+            <%= f.submit 'Сохранить', class: "btn btn-sm btn-primary"%>
+          </td>
+        </tr>
+
+
+      </table>
+    <% end %>
+
+
+
+  </div>
+  <div class="span4">
+
+  </div>
+</div>

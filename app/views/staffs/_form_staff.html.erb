@@ -1,0 +1,393 @@
+<div class="modal fade" id="new_staff_notes" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">
+          Новая заметка
+        </h4>
+      </div>
+      <%= form_for @staff_note, remote: true, :html => {:class => "form-horizontal"} do |note_new| %>
+        <div class="modal-body">
+          <fieldset>
+
+            <div class="control-group hidden">
+              <%= note_new.label :"client_id", :class => "control-label" %>
+              <div class="controls">
+                <%= note_new.text_field :staff_id, :class => "input-xlarge", :value => @staff.id %>
+              </div>
+            </div>
+            <div class="control-group">
+              <%= note_new.label :"Наименование", :class => "control-label" %>
+              <div class="controls">
+                <%= note_new.text_field :name, :class => "input-xlarge" %>
+              </div>
+            </div>
+            <div class="control-group">
+              <%= note_new.label :"Описание", :class => "control-label" %>
+              <div class="controls">
+                <%= note_new.text_field :description, :class => "input-xlarge" %>
+              </div>
+            </div>
+
+          </fieldset>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Закрыть</button>
+          <%= note_new.submit value: "Сохранить", :class => "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<div style="width: 300px;" class="modal fade" id="new_staff_visas" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">
+          Добавить визу
+        </h4>
+      </div>
+      <%= form_for @staff_visa, remote: true, :html => {:class => "form-vertical"} do |visa_new| %>
+        <div class="modal-body">
+          <fieldset>
+
+            <div class="control-group">
+              <%= visa_new.label :"Страна", :class => "control-label" %>
+              <div class="controls">
+                <select class="selectpicker" name="staff_visa[country_id]">
+                  <% Country.all_alkp.each do |c| %>
+                    <option value="<%= c.id %>" <% if c.id == @staff_visa.country_id %>selected="selected"<% end %>><%= c.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+            <div class="control-group hidden">
+              <%= visa_new.label :"staff_id", :class => "control-label" %>
+              <div class="controls">
+                <%= visa_new.text_field :staff_id, :class => "input-xlarge", :value => @staff.id %>
+              </div>
+            </div>
+
+            <div class="control-group">
+              <%= visa_new.label :"Действителен до", :class => "control-label" %>
+              <div id="date_staff_new" class="controls input-append date" data-date-format="yyyy-mm-dd">
+                <input name="staff_visa[validity]" type="text" class="form-control">
+                <span class="input-group-addon"></span>
+              </div>
+              <script>
+                var checkout = $('#date_staff_new').datepicker().on('changeDate', function(ev) {
+                  checkout.hide();
+                }).data('datepicker');
+              </script>
+            </div>
+          </fieldset>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default close-modal" data-dismiss="modal">Закрыть</button>
+          <%= visa_new.submit value: "Сохранить", :class => "btn btn-primary" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<a id="modal-420636" href="#modal-container-420636" role="button" class="btn btn-block btn-warning btn-sm" data-toggle="modal">Добавить напоминание в органайзер</a>
+<div class="modal fade" id="modal-container-420636" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">
+          Новое напоминание
+        </h4>
+      </div>
+      <div class="modal-body">
+        <%= form_for @event_staff, remote: true, :html => {:class => "form-horizontal"} do |event| %>
+          <input class="input-xlarge hidden" value="<%= @staff.id %>" name="staff_id" type="text">
+          <div class="control-group">
+            <%= event.label :"Наименование", :class => "control-label" %>
+            <div class="controls">
+              <%= event.text_field :name, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= event.label :"Описание", :class => "control-label" %>
+            <div class="controls">
+              <%= event.text_field :description, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= event.label :"Комментарий", :class => "control-label" %>
+            <div class="controls">
+              <%= event.text_field :note, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= event.label :"Дата", :class => "control-label" %>
+            <div class="controls">
+              <input class="input-xlarge organaizer"
+                     id="event_date"
+                     name="event[date]"
+                     value="<%= @event_staff.date %>"
+                     type="text"
+                     data-date-format="yyyy-mm-dd">
+
+              <!--< %= event.text_field :date, :class => "input-xlarge" %>-->
+            </div>
+          </div>
+          <div class="control-group">
+            <%= event.label :"Время", :class => "control-label" %>
+            <div class="controls">
+              <%= time_select 'event', 'time', {minute_step: 15}, style: "width: 70px;", value: @event_staff.time %>
+            </div>
+          </div>
+
+
+          <div class="modal-footer">
+            <button type="button" onclick="$('.event-form').html('')" class="btn btn-default close-modal event-close2" data-dismiss="modal">Закрыть</button>
+            <%= event.submit value: "Сохранить", :class => "btn btn-primary", remote: true %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+  <div>
+    <div class="span6 column">
+      <%= form_for @staff, remote: true, :html => {:class => "form-inline"} do |s| %>
+        <fieldset>
+          <div class="control-group">
+            <%= s.label :"Пол", :class => "control-label" %>
+            <div class="controls">
+              <select class="selectpicker" name="staff[sex]">
+                <option value="М" <% if @staff.sex == "М" %>selected="selected"<% end %>>М</option>
+                <option value="Ж" <% if @staff.sex == "Ж" %>selected="selected"<% end %>>Ж</option>
+              </select>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Должность", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :post, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Email рабочий", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :email_1, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Email личный", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :email_2, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Телефон рабочий", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :phone_1, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Телефон личный", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :phone_2, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Телефон дополнительный", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :phone_3, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Прописан", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :registration, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Проживает", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :lives, :class => "input-xlarge" %>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <%= s.submit value: "Сохранить", :class => "btn btn-primary" %>
+          </div>
+        </fieldset>
+      <% end %>
+      <a id="modal-24495"
+         href="#new_staff_notes"
+         role="button"
+         class="btn btn-block btn-primary btn-sm"
+         data-toggle="modal">Добавить заметку</a>
+
+      <br>
+      <div class="staff-notes">
+        <%= render "staff_notes/create" %>
+      </div>
+
+    </div>
+    <div class="span6 column">
+      <h3 class="text-center text-info">
+        Загранпаспорт
+      </h3>
+      <br>
+      <%= form_for @staff, remote: true, :html => {:class => "form-inline"} do |s| %>
+        <fieldset>
+          <div class="control-group">
+            <%= s.label :"Surname", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :international_surname, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Name", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :international_name, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Middle Name", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :international_middle_name, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Series & Number", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :international_series, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Issued by", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :international_issued_by, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Issue date", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :international_issue_date, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Valid until", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :international_valid_until, :class => "input-xlarge" %>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <%= s.submit value: "Сохранить", :class => "btn btn-primary" %>
+          </div>
+        </fieldset>
+      <% end %>
+      <br>
+      <h3 class="text-center text-info">
+        Паспорт
+      </h3>
+      <br>
+      <%= form_for @staff, remote: true, :html => {:class => "form-inline"} do |s| %>
+        <fieldset>
+          <div class="control-group">
+            <%= s.label :"Фамилия", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :surname, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Имя", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :name, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Отчество", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :middle_name, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"День рождения", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :birthday, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Серия и номер", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :series, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Кем выдан", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :issued_by, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Дата выдачи", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :issue_date, :class => "input-xlarge" %>
+            </div>
+          </div>
+          <div class="control-group">
+            <%= s.label :"Действует до", :class => "control-label" %>
+            <div class="controls">
+              <%= s.text_field :valid_until, :class => "input-xlarge" %>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <%= s.submit value: "Сохранить", :class => "btn btn-primary" %>
+          </div>
+        </fieldset>
+      <% end %>
+    </div>
+  </div>
+  <div>
+    <div class="span6 column">
+      <a href="#new_staff_visas"
+         role="button"
+         class="btn btn-block btn-primary btn-sm"
+         data-toggle="modal">Добавить визу</a>
+      <!--<button type="button" class="btn btn-block btn-sm btn-primary">Добавить визу</button>-->
+      <div class="staff-visas-index">
+        <%= render 'staff_visas/index' %>
+      </div>
+    </div>
+    <div class="span6 column">
+      <button type="button" class="btn btn-block btn-sm btn-primary">Добавить скан</button>
+      <h4>Нет сканов</h4>
+      <!--<table class="table table-hover table-striped table-condensed">-->
+        <!--<thead>-->
+        <!--<tr>-->
+          <!--<th>-->
+            <!--Наименование-->
+          <!--</th>-->
+          <!--<th>-->
+            <!--Действие-->
+          <!--</th>-->
+        <!--</tr>-->
+        <!--</thead>-->
+        <!--<tbody>-->
+        <!--<tr class="active">-->
+          <!--<td>-->
+            <!--Скан паспорта: 3 страница-->
+          <!--</td>-->
+          <!--<td>-->
+            <!--удалить-->
+          <!--</td>-->
+        <!--</tr>-->
+        <!--</tbody>-->
+      <!--</table>-->
+    </div>
+  </div>

@@ -1,0 +1,73 @@
+<%= form_for @event, remote: true, :html => {:class => "form-horizontal"} do |event| %>
+
+  <% unless @event.client_id.nil? %>
+    <div class="control-group">
+      <!--< %= event.label :"Клиент", :class => "control-label" %>-->
+      <div class="controls">
+        <b><i><h3><%= Client.find(@event.client_id).name %></h3></i></b>
+      </div>
+    </div>
+  <% end %>
+  <% unless @event.staff_id.nil? %>
+    <div class="control-group">
+      <!--< %= event.label :"Сотрудник", :class => "control-label" %>-->
+      <div class="controls">
+        <b><i><h3>
+          <%= Staff.find(@event.staff_id).surname %>
+          <%= Staff.find(@event.staff_id).name %>
+          <%= Staff.find(@event.staff_id).middle_name %>
+        </h3></i></b>
+      </div>
+    </div>
+  <% end %>
+  <div class="control-group">
+    <%= event.label :"Наименование", :class => "control-label" %>
+    <div class="controls">
+      <%= event.text_field :name, :class => "input-large" %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= event.label :"Описание", :class => "control-label" %>
+    <div class="controls">
+      <%= event.text_field :description, :class => "input-large" %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= event.label :"Комментарий", :class => "control-label" %>
+    <div class="controls">
+      <%= event.text_field :note, :class => "input-large" %>
+    </div>
+  </div>
+  <div class="control-group">
+    <%= event.label :"Дата", :class => "control-label" %>
+    <div class="controls">
+      <input class="input-large"
+             id="event_date"
+             name="event[date]"
+             value="<%= @event.date %>"
+             type="text"
+             data-date-format="yyyy-mm-dd">
+
+      <!--< %= event.text_field :date, :class => "input-xlarge" %>-->
+    </div>
+  </div>
+  <script>
+    var tour_departure = $('#event_date').datepicker().on('changeDate', function(ev) {
+      tour_departure.hide();
+    }).data('datepicker');
+  </script>
+  <div class="control-group">
+    <%= event.label :"Время", :class => "control-label" %>
+    <div class="controls">
+      <%= time_select 'event', 'time', {minute_step: 15}, style: "width: 70px;", value: @event.time %>
+    </div>
+  </div>
+
+
+  <div class="modal-footer">
+    <!--<button type="button" onclick="$('.event-form').html('')" class="btn btn-default close-modal" data-dismiss="modal">Закрыть</button>-->
+    <% unless @event.end %>
+        <%= event.submit value: "Сохранить", :class => "btn btn-primary", remote: true %>
+    <% end %>
+  </div>
+<% end %>

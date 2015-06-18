@@ -1,0 +1,28 @@
+<a href="types_partners/new"
+   data-remote="true"
+   role="button"
+   class="btn btn-block btn-primary btn-sm"
+   data-toggle="modal">Новый тип</a>
+<div class="types-partners-form"></div>
+<table class="table">
+  <thead>
+  <tr>
+    <th>
+      Наименование
+    </th>
+    <th></th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @types_partners.each do |t_p| %>
+    <tr class="active">
+      <td><a data-remote="true" href="/types_partners/<%= t_p.id %>"><%= t_p.name %></a></td>
+      <td>
+        <a data-confirm="Вы действительно хотите удалить тип?" data-remote="true"
+           data-method="delete" href="/types_partners/<%= t_p.id %>" rel="nofollow">
+          <img src="/assets/del.png"></a>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

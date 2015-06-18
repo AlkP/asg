@@ -1,0 +1,39 @@
+<% unless @staff_notes.length == 0 %>
+  <table class="table">
+    <thead>
+    <tr>
+      <th>
+        Коротко
+      </th>
+      <th>
+        Подробно
+      </th><th>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+      <% @staff_notes.each do |s_n| %>
+        <tr class="active">
+          <td>
+            <%= s_n.name %>
+          </td>
+          <td>
+            <%= s_n.description %>
+          </td>
+          <td>
+            <a data-confirm="Вы действительно хотите удалить заметку?"
+               data-method="delete"
+               data-remote="true"
+               href="/staff_notes/<%= s_n.id %>"
+               rel="nofollow"><img src="/assets/del.png"></a>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h4>
+    Нет заметок
+  </h4>
+<% end %>
+

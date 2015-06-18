@@ -1,0 +1,38 @@
+I, [2014-02-16T19:05:22.097430 #3657]  INFO -- : Started GET "/" for 127.0.0.1 at 2014-02-16 19:05:22 +0200
+I, [2014-02-16T19:05:22.134480 #3657]  INFO -- : Processing by MainController#index as HTML
+I, [2014-02-16T19:05:22.156655 #3657]  INFO -- :   Rendered main/index.html.erb within layouts/application (0.5ms)
+I, [2014-02-16T19:05:34.187973 #3657]  INFO -- :   Rendered layouts/_menu.html.erb (3.6ms)
+I, [2014-02-16T19:05:34.188225 #3657]  INFO -- : Completed 500 Internal Server Error in 12054ms
+F, [2014-02-16T19:05:34.190740 #3657] FATAL -- : 
+ActionView::Template::Error (Could not find table 'users'):
+    18:           <ul class="nav navbar-nav">
+    19: 
+    20: 
+    21:             <% unless current_user.nil? %>
+    22:               <% unless current_user.admin? %>
+    23: 
+    24:                 <li class="dropdown">
+  app/controllers/application_controller.rb:12:in `current_user'
+  app/views/layouts/_menu.html.erb:21:in `_app_views_layouts__menu_html_erb___3811835328416199810_69333640'
+  app/views/layouts/application.html.erb:13:in `_app_views_layouts_application_html_erb___3598969975260423957_46414160'
+
+
+I, [2014-02-16T19:06:27.934479 #3725]  INFO -- : Migrating to CreateSectors (20140202095020)
+I, [2014-02-16T19:06:27.962317 #3725]  INFO -- : Migrating to CreateUsers (20140202111223)
+I, [2014-02-16T19:06:27.982829 #3725]  INFO -- : Migrating to CreateClients (20140203132840)
+I, [2014-02-16T19:06:28.004250 #3725]  INFO -- : Migrating to CreateNotes (20140203190819)
+I, [2014-02-16T19:06:28.025489 #3725]  INFO -- : Migrating to CreateStaffs (20140204101155)
+I, [2014-02-16T19:06:28.051201 #3725]  INFO -- : Migrating to CreateStaffNotes (20140204103210)
+I, [2014-02-16T19:06:28.073586 #3725]  INFO -- : Migrating to CreateCountries (20140206095959)
+I, [2014-02-16T19:06:28.096969 #3725]  INFO -- : Migrating to CreateTowns (20140206100040)
+I, [2014-02-16T19:06:28.119594 #3725]  INFO -- : Migrating to CreateTypesPartners (20140206185457)
+I, [2014-02-16T19:06:28.142691 #3725]  INFO -- : Migrating to CreatePartners (20140206192515)
+I, [2014-02-16T19:06:28.167452 #3725]  INFO -- : Migrating to CreateVisas (20140207081918)
+I, [2014-02-16T19:06:28.188991 #3725]  INFO -- : Migrating to CreateStaffVisas (20140207182600)
+I, [2014-02-16T19:06:28.212528 #3725]  INFO -- : Migrating to CreateTours (20140208100009)
+I, [2014-02-16T19:06:28.236028 #3725]  INFO -- : Migrating to CreateTourNotes (20140208141014)
+I, [2014-02-16T19:06:28.257167 #3725]  INFO -- : Migrating to CreateListStaffTours (20140208160031)
+I, [2014-02-16T19:06:28.281742 #3725]  INFO -- : Migrating to CreateTourRooms (20140208174335)
+I, [2014-02-16T19:06:28.310910 #3725]  INFO -- : Migrating to CreateRoomStaffs (20140208174911)
+I, [2014-02-16T19:06:28.332056 #3725]  INFO -- : Migrating to CreateEvents (20140212194703)
+E, [2014-02-16T19:06:42.127862 #3731] ERROR -- : Binary data inserted for `string` type on column `password_digest`

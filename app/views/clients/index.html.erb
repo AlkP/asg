@@ -1,0 +1,12 @@
+<div class="span2 client-index-after-update clients-index">
+  <%= render 'clients/index' %>
+
+</div>
+<div class="span10 client-details">
+
+</div>
+<!--</div>-->
+<!--</div>-->
+<% unless $current_client.nil? %>
+  <script>$( '.client-details' ).load( $.get('/clients/<%= $current_client %>', function(data) {}) );</script>
+<% end %>

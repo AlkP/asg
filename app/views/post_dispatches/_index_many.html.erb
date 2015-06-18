@@ -1,0 +1,46 @@
+<h3 class="text-info text-center">
+  Периодическая рассылка
+</h3>
+<!--<button type="button" class="btn btn-sm btn-block btn-info">Добавить рассылку</button>-->
+<table class="table table-striped table-hover table-condensed">
+  <thead>
+  <tr class="active">
+    <th>
+      Тема письма
+    </th>
+    <th>
+      Кому
+    </th>
+    <th>
+      Дата
+    </th>
+    <th>
+      <a href="<%= new_post_dispatch_path %>"
+         data-remote="true"
+         role="button"><img src="/assets/plus.png"/></a>
+    </th>
+  </tr>
+  </thead>
+  <tbody>
+  <% @post_dispatches_many.each do |p_d_o| %>
+    <tr class="active">
+      <td>
+        <%= link_to p_d_o.subject, p_d_o, remote: true %>
+      </td>
+      <td>
+        <%= whom_prn(p_d_o.whom) %>
+      </td>
+      <td>
+        <%= p_d_o.date %>
+      </td>
+      <td>
+        <a data-confirm="Удалить рассылку?"
+           data-method="delete"
+           data-remote="true"
+           href="/post_dispatches/<%= p_d_o.id %>"
+           rel="nofollow"><img src="/assets/del.png"></a>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>

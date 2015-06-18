@@ -1,0 +1,7 @@
+$(".staff-details").html("<%= escape_javascript render 'staffs/form_staff' %>");
+$('#new_staff_notes').hide();
+$('#new_staff_visas').hide();
+$('#modal-container-420636').hide();
+var tour_departure2 = $('.organaizer').datepicker().on('changeDate', function(ev) {
+  tour_departure2.hide();
+}).data('datepicker');

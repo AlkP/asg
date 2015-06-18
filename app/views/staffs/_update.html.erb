@@ -1,0 +1,35 @@
+<a href="<%= client_url @client_id %><%= new_staff_path %>"
+   type="button"
+   data-remote="true"
+   class="btn btn-block btn-primary btn-sm">Добавить нового</a>
+<div class="staff-index-table">
+  <table class="table table-condensed table-hover table-striped">
+    <thead>
+    <tr>
+      <th>
+        ФИО
+      </th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @staffs.each do |s| %>
+      <tr class="active">
+        <td>
+          <a data-remote="true"
+             href="/staffs/<%= s.id %>"
+             onclick="" >
+            <%= s.surname %> <%= s.name[0] unless s.name.nil? %>.<%= s.middle_name[0] unless s.middle_name.nil? %>.</a></td>
+        </td>
+        <td>
+          <a data-confirm="Вы действительно хотите удалить сотрудника?"
+             data-method="delete"
+             data-remote="true"
+             href="/staffs/<%= s.id %>"
+             rel="nofollow"><img src="/assets/del.png"></a>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

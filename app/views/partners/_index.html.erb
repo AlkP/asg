@@ -1,0 +1,40 @@
+<a href="/partners/new"
+   data-remote="true"
+   role="button"
+   class="btn btn-block btn-primary btn-sm"
+   data-toggle="modal">Добавить партнера</a>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        Наименование
+      </th>
+      <th>
+        Страна
+      </th>
+      <th>
+        Город
+      </th>
+      <th>
+        Услуга
+      </th>
+      <th>
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @partners.each do |p| %>
+      <tr class="active">
+        <td><%= link_to p.name, p, remote: true %></td>
+        <td><%= Country.find(p.country_id).name unless p.country_id.nil? %></td>
+        <td><%= Town.find(p.town_id).name unless p.town_id.nil? %></td>
+        <td><%= TypesPartner.find(p.types_partner_id).name unless p.types_partner_id.nil? %></td>
+        <td>
+          <a data-confirm="Вы действительно хотите удалить партнера?" data-remote="true"
+             data-method="delete" href="/partners/<%= p.id %>" rel="nofollow">
+            <img src="/assets/del.png"></a>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

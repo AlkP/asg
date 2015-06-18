@@ -1,0 +1,71 @@
+<%= form_for @tour, remote: true, :html => {:class => "form-horizontal"} do |tour| %>
+  <div class="modal-body">
+    <fieldset>
+
+      <div class="control-group hidden">
+        <%= tour.label :"client_id", :class => "control-label" %>
+        <div class="controls">
+          <%= tour.text_field :client_id, :class => "input-xlarge", value: @country_id %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= tour.label :"Наименование", :class => "control-label" %>
+        <div class="controls">
+          <%= tour.text_field :name, :class => "input-xlarge" %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= tour.label :"Описание тура", :class => "control-label" %>
+        <div class="controls">
+          <%= tour.text_field :description, :class => "input-xlarge" %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= tour.label :"Примечание", :class => "control-label" %>
+        <div class="controls">
+          <%= tour.text_field :note, :class => "input-xlarge" %>
+        </div>
+      </div>
+      <div class="control-group">
+        <%= tour.label :"Отправление", :class => "control-label" %>
+        <div class="controls">
+          <input class="input-xlarge" id="tour_departure" name="tour[departure]" type="text" value="<%= @tour.departure %>" data-date-format="yyyy-mm-dd">
+          <!--< %= tour.text_field :departure, :class => "input-xlarge", id: "dpd2",  %>-->
+        </div>
+      </div>
+      <script>
+        var tour_departure = $('#tour_departure').datepicker().on('changeDate', function(ev) {
+          tour_departure.hide();
+          }).data('datepicker');
+      </script>
+      <div class="control-group">
+        <%= tour.label :"Окончание", :class => "control-label" %>
+        <div class="controls">
+          <input class="input-xlarge" id="tour_final" name="tour[final]" type="text" value="<%= @tour.final %>" data-date-format="yyyy-mm-dd">
+          <!--< %= tour.text_field :final, :class => "input-xlarge" %>-->
+        </div>
+      </div>
+      <script>
+        var tour_final = $('#tour_final').datepicker().on('changeDate', function(ev) {
+          tour_final.hide();
+        }).data('datepicker');
+      </script>
+
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button type="button" onclick="$('.tour-form').html('');$('.accordion-form').html('')" class="btn btn-default close-modal" data-dismiss="modal">Закрыть</button>
+    <%= tour.submit value: "Сохранить параметры тура", :class => "btn btn-primary", remote: true %>
+  </div>
+<% end %>
+
+
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <a href="to_pdf/<%= @tour.id %>/list.pdf" class="btn btn-default">Список участников в PDF</a>
+      <br><br>
+      <a href="to_pdf/<%= @tour.id %>/hotel.pdf" class="btn btn-default">Rooming List в PDF</a>
+    </div>
+  </div>
+</form>

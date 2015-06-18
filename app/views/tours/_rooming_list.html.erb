@@ -1,0 +1,113 @@
+<div class="panel panel-primary">
+
+  <% (TourRoom.where('tour_id = ?', @tour.id)).select("DISTINCT(partner_id)").each do |hotel_list| %>
+    <% partner = Partner.find(hotel_list.partner_id) %>
+    <div class="panel-heading">
+      <h3 class="panel-title">
+        <%= Town.find(partner.town_id).name %>: <%= partner.name %>
+      </h3>
+    </div>
+    <div class="panel-body">
+      <div class="panel-body">
+        <table class="table">
+          <thead>
+          <tr class="active">
+            <th>
+              <a data-remote="true" href="/add_room/<%= @tour.id %>/<%= hotel_list.partner_id %>"><img src="/assets/plus.png"></a>
+            </th>
+            <th></th>
+            <th>
+              Комната
+            </th>
+            <th></th>
+            <th>
+              Проживающие
+            </th>
+          </tr>
+          </thead>
+          <tbody>
+            <% (TourRoom.where('tour_id = ?', @tour.id).where('partner_id = ?',hotel_list.partner_id).order('name')).each do |each_room| %>
+                <tr class="active">
+                  <td></td>
+                  <td>
+                    <a data-confirm="Вы действительно хотите удалить комнату?"
+                       data-remote="true"
+                       href="/del_room/<%= @tour.id %>/<%= each_room.id %>"><img src="/assets/del.png"></a>
+                  </td>
+                  <td>
+                    <%= link_to each_room.name, '/edit_room/'+each_room.id.to_s, remote: true %>
+                  </td>
+                  <td>
+                    <a data-remote="true" href="/select_staff/<%= @tour.id %>/<%= each_room.id %>"><img src="/assets/plus.png"></a>
+                  </td>
+                  <td>
+                    <% RoomStaff.where('tour_room_id = ?', each_room.id).each do |each_staff| %>
+                      <a data-confirm="Вы действительно хотите удалить проживающего?"
+                         data-remote="true"
+                         href="/del_staff/<%= @tour.id %>/<%= each_staff.id %>"><img src="/assets/del.png"></a> <%= Staff.find(each_staff.staff_id).surname %> <%= Staff.find(each_staff.staff_id).name %> <%= Staff.find(each_staff.staff_id).middle_name %>
+                      <br>
+                    <% end %>
+                  </td>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+</div>
+
+
+
+<a id="modal-320646"
+   href="#modal-container-320646"
+   role="button"
+   class="btn btn-block btn-primary btn-sm"
+   data-toggle="modal">Добавить отель</a>
+<div class="modal fade" id="modal-container-320646" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h4 class="modal-title" id="myModalLabel">
+          Добавляем отель в тур
+        </h4>
+      </div>
+      <%= form_tag("/add_hotel", method: "get", remote: true) do %>
+        <div class="modal-body">
+          <%= text_field_tag(:tour_id, @tour.id) %>
+          <script>$('#modal-container-320646 #tour_id').hide();</script>
+          <div class="control-group">
+            <%= label_tag(:hotel, "Отель:") %>
+            <div class="controls">
+              <select class="selectpicker" name="hotel">
+                <% t_p_id = TypesPartner.all_alkp.where('name = ?', "Отели").first.id %>
+                <% Partner.all_alkp.where('types_partner_id = ?', t_p_id).each do |t| %>
+                  <option value="<%= t.id %>"><%= t.name %></option>
+                <% end %>
+              </select>
+            </div>
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button"
+                  class="btn btn-default data-dismiss"
+                  data-dismiss="modal">Закрыть</button>
+          <input class="btn btn-primary"
+                 name="commit"
+                 type="submit"
+                 value="Добавить">
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>$('#modal-container-320646').hide();</script>
+
+
+<div class="modal fade" id="modal-container-940915" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+</div>
+
+<script>$('#modal-container-940915').hide();</script>

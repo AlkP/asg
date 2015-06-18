@@ -1,0 +1,83 @@
+  <!--<button type="button" class="btn btn-block btn-primary btn-sm">Поиск</button>-->
+  <% if session[:filter].nil? %>
+    <a id="modal-073650" href="#modal-container-073650" role="button" class="btn btn-block btn-primary btn-sm" data-toggle="modal">Поиск</a>
+  <% else %>
+    <%= link_to "Очистить поиск", "clear_filter", remote: true, class: "btn btn-block btn-warning btn-sm" %>
+  <% end %>
+  <div class="modal fade" id="modal-container-073650" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+          <h4 class="modal-title" id="myModalLabel">
+            Поиск клиентов
+          </h4>
+        </div>
+        <div class="modal-body">
+          <form accept-charset="UTF-8" action="/filter" class="form-horizontal" data-remote="true" id="new_event" method="post">
+            <div class="control-group">
+              <label class="control-label" for="event_Наименование">Наименование</label>
+              <div class="controls">
+                <input class="input-xlarge" id="event_name" name="filter[name]" type="text">
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="event_Описание">Отрасль</label>
+              <div class="controls">
+                <select class="selectpicker" name="filter[sector]">
+                  <option value="">Все отрасли</option>
+                  <% Sector.all_alkp.each do |s| %>
+                    <option value="<%= s.id %>"><%= s.name %></option>
+                  <% end %>
+                </select>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <button type="button" onclick="$('.event-form').html('')" class="btn btn-default close-modal event-close filter-close" data-dismiss="modal">Закрыть</button>
+              <input class="btn btn-primary" name="commit" remote="true" type="submit" value="Поиск">
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    $('#modal-container-073650').hide();
+  </script>
+
+
+  <table class="table table-condensed table-hover table-striped">
+    <thead>
+    <tr>
+      <th>
+        Наименование
+      </th>
+      <th>
+        <% unless session[:filter].nil? %>
+          <a href="create_post/client"
+             role="button"><img src="/assets/email_mini.jpg"/></a>
+        <% end %>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @clients.each do |c| %>
+      <tr class="active">
+        <td>
+          <a data-remote="true"
+             href="/clients/<%= c.id %>"
+             onclick="" >
+            <%= (c.name.length < 12) ? c.name : c.name[0,12] + "..." %></a></td>
+        </td>
+        <td>
+          <a data-confirm="Вы действительно хотите удалить клиента?"
+             data-method="delete"
+             href="/clients/<%= c.id %>"
+             rel="nofollow"><img src="/assets/del.png"></a>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>

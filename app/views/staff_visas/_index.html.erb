@@ -1,0 +1,35 @@
+<% unless @staff_visas.count == 0 %>
+  <table class="table table-condensed table-hover table-striped">
+    <thead>
+    <tr>
+      <th>
+        Страна
+      </th>
+      <th>
+        Действителен
+      </th>
+      <th>
+      </th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @staff_visas.each do |s_v| %>
+      <tr class="active">
+        <td>
+          <%= s_v.country_id.nil? ? "Страна не указана" : Country.find(s_v.country_id).name %>
+        </td>
+        <td>
+          <%= s_v.validity %>
+        </td>
+        <td>
+          <a data-confirm="Вы действительно хотите удалить визу?" data-remote="true"
+             data-method="delete" href="/staff_visas/<%= s_v.id %>" rel="nofollow">
+            <img src="/assets/del.png"></a>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <h4>У сотрудника нет открытых виз</h4>
+<% end %>

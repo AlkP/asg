@@ -1,0 +1,19 @@
+<br>
+<%= form_for @types_partner, remote: true, :html => {:class => "form-vertical"} do |t_p| %>
+  <div class="modal-body">
+    <fieldset>
+
+      <div class="control-group">
+        <%= t_p.label :"Наименование", :class => "control-label" %>
+        <div class="controls">
+          <%= t_p.text_field :name, :class => "input-xlarge" %>
+        </div>
+      </div>
+
+    </fieldset>
+  </div>
+  <div class="modal-footer">
+    <button type="button" onclick="$('.types-partners-form').html('')" class="btn btn-default close-modal" data-dismiss="modal">Закрыть</button>
+    <%= t_p.submit value: "Сохранить", :class => "btn btn-primary", remote: true %>
+  </div>
+<% end %>
